@@ -5,6 +5,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTableModule } from "@angular/material/table";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from '@angular/platform-browser';
@@ -37,7 +38,8 @@ import { ReplacePipe } from './pages/pokemon-detail/pipes/replace.pipe';
     MatIconModule,
     HttpClientModule,
     MatTooltipModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSnackBarModule
   ],
   providers: [PokemonService],
   bootstrap: [AppComponent]

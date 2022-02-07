@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
+import { GENERIC_ERROR_MESSAGE } from "../../shared/constants/generic-error-message";
 import { PokemonDetail } from "../../shared/interfaces/pokemon-detail";
 import { PokemonService } from "../../shared/services/pokemon.service";
 
@@ -12,7 +14,7 @@ export class PokemonDetailComponent implements OnInit {
   loading!: boolean;
   data!: PokemonDetail;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private service: PokemonService) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private service: PokemonService, private snackbar: MatSnackBar) {
   }
 
   get image(): string {
@@ -32,11 +34,19 @@ export class PokemonDetailComponent implements OnInit {
     this.loading = true;
     const id = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.service.findById(id).subscribe({
-      next: response => this.data = response
+      next: response => this.data = response,
+      error: () => this.onFindByIdError()
     }).add(() => this.loading = false)
   }
 
   goBack() {
     this.router.navigateByUrl('/');
+  }
+
+  onFindByIdError() {
+    this.snackbar.open(GENERIC_ERROR_MESSAGE, undefined, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 }

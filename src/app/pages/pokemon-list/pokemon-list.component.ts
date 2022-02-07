@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from "@angular/material/paginator";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { GENERIC_ERROR_MESSAGE } from "../../shared/constants/generic-error-message";
 import { PokemonListItem } from "../../shared/interfaces/pokemon-list-item";
 import { PokemonListResponse } from "../../shared/interfaces/pokemon-list-response";
 import { PokemonService } from "../../shared/services/pokemon.service";
@@ -15,7 +17,7 @@ export class PokemonListComponent implements OnInit {
   totalItems!: number;
   data!: PokemonListItem[];
 
-  constructor(private service: PokemonService) { }
+  constructor(private service: PokemonService, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.fetchPokemons();
@@ -24,13 +26,21 @@ export class PokemonListComponent implements OnInit {
   fetchPokemons(page?: number): void {
     this.loading = true;
     this.service.findAll(page).subscribe({
-      next: (response) => this.onFetchSuccess(response)
+      next: (response) => this.onFetchSuccess(response),
+      error: () => this.onFindAllError(),
     }).add(() => this.loading = false)
   }
 
   onFetchSuccess({ results, count }: PokemonListResponse): void {
     this.totalItems = count;
     this.data = results;
+  }
+
+  onFindAllError() {
+    this.snackbar.open(GENERIC_ERROR_MESSAGE, undefined, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 
   changePage({ pageIndex }: PageEvent) {
