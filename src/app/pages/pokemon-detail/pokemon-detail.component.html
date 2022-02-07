@@ -1,0 +1,32 @@
+<div class="detail">
+  <ng-container *ngIf="!loading; else LoadingTemplate">
+    <mat-card>
+      <mat-card-header class="detail__header">
+        <button mat-icon-button matTooltip="Voltar" (click)="goBack()">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <mat-card-title class="detail__title">{{ data.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="detail__content">
+          <div class="detail__image">
+            <img [src]="image" alt="pokemon-image"/>
+          </div>
+
+          <ul class="detail__stats">
+            <li *ngFor="let stats of data.stats">
+              <span class="detail__stats-name">{{ stats.stat.name | titlecase | replace: '-':' ' }}:</span> {{ stats.base_stat }}
+            </li>
+          </ul>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</div>
+
+<ng-template #LoadingTemplate>
+  <div class="detail__loading">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</ng-template>
+

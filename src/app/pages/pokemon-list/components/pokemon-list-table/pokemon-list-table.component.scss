@@ -1,0 +1,15 @@
+.table {
+  width: 100%;
+
+  &__actions {
+    text-align: end;
+
+    mat-icon {
+      color: #0075BE;
+    }
+  }
+
+  &__name {
+    text-transform: capitalize;
+  }
+}
